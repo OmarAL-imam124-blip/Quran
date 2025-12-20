@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الاختبارات القرآنية الشاملة - v15.0</title>
+    <title>منصة الاختبارات القرآنية الشاملة - v16.0</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;500;700&display=swap');
 
@@ -12,6 +12,7 @@
             --primary-light: #2d5a27;
             --secondary: #2c3e50;
             --accent: #c5a059;
+            --gold: #d4af37;
             --bg: #f2f7f5;
             --card-bg: #ffffff;
             --text: #333;
@@ -182,18 +183,6 @@
         }
         .verse-text { font-family: 'Amiri', serif; font-size: 3.5rem; color: var(--primary); line-height: 1.6; margin-bottom: 1.5rem; }
 
-        .tadabbur-box {
-            background: #eefdf5;
-            padding: 1.5rem;
-            border-radius: 15px;
-            color: #1a5d3b;
-            display: none;
-            margin-top: 20px;
-            border-right: 6px solid var(--success);
-            text-align: right;
-            font-size: 1.2rem;
-        }
-
         .tajweed-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -215,7 +204,6 @@
         table { width: 100%; border-collapse: collapse; background: #fff; }
         th, td { padding: 18px; text-align: right; border-bottom: 1px solid #f1f1f1; }
         th { background: #f9fbf9; color: var(--primary); font-weight: 700; }
-        tr:hover { background: #f8fcf9; }
 
         .student-link { color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: none; border-bottom: 1.5px solid var(--accent); }
 
@@ -223,21 +211,61 @@
         .badge-success { background: #d1fae5; color: #065f46; }
         .badge-warning { background: #fffbeb; color: #92400e; }
 
-        .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); display: none;
-            justify-content: center; align-items: center; z-index: 1000;
-            backdrop-filter: blur(6px);
-        }
-        .modal-body {
-            background: white; border-radius: 30px; width: 95%; max-width: 800px;
-            padding: 2.5rem; max-height: 90vh; overflow-y: auto; position: relative;
+        /* Certificate Styles - Professional Re-design */
+        #printCertificate {
+            width: 1100px;
+            height: 780px;
+            background: #fff;
+            padding: 50px;
+            position: relative;
+            display: none;
+            margin: 0 auto;
+            border: 2px solid var(--accent);
+            overflow: hidden;
+            box-sizing: border-box;
         }
 
-        #printCertificate {
-            width: 1000px; height: 700px; background: white; padding: 60px;
-            border: 35px solid var(--primary); position: relative; display: none; margin: 0 auto;
+        .cert-border-outer {
+            border: 20px solid var(--primary);
+            height: 100%;
+            width: 100%;
+            position: relative;
+            box-sizing: border-box;
         }
+
+        .cert-border-inner {
+            border: 5px double var(--accent);
+            height: calc(100% - 20px);
+            width: calc(100% - 20px);
+            margin: 10px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .cert-corner {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 10px solid var(--accent);
+            z-index: 10;
+        }
+        .top-left { top: -10px; left: -10px; border-right: none; border-bottom: none; }
+        .top-right { top: -10px; right: -10px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: -10px; left: -10px; border-right: none; border-top: none; }
+        .bottom-right { bottom: -10px; right: -10px; border-left: none; border-top: none; }
+
+        .cert-header { font-size: 1.2rem; font-weight: bold; color: var(--secondary); }
+        .cert-title { font-family: 'Amiri', serif; font-size: 4.5rem; color: var(--primary); margin: 10px 0; }
+        .cert-body { font-size: 1.8rem; line-height: 1.8; color: #444; }
+        .cert-name { font-family: 'Amiri', serif; font-size: 4rem; color: var(--accent); font-weight: bold; text-decoration: underline; margin: 15px 0; }
+        .cert-score { font-size: 2.5rem; font-weight: 900; color: var(--primary); }
+        .cert-footer { display: flex; justify-content: space-between; margin-top: 40px; padding: 0 50px; align-items: flex-end; }
+        .signature-line { border-top: 2px solid #333; width: 220px; padding-top: 10px; font-weight: bold; font-size: 1.2rem; }
 
         @media print {
             body * { visibility: hidden; }
@@ -254,8 +282,8 @@
 <body>
 
     <header class="app-header no-print">
-        <h1>مساعد المعلم القرآني الذكي <small style="font-size: 1rem; opacity: 0.8;">v15.0</small></h1>
-        <p>بإشراف معلم الحلقة عمر بن عبدالحميد الإمام</p>
+        <h1>مساعد المعلم القرآني الذكي <small style="font-size: 1rem; opacity: 0.8;">v16.0</small></h1>
+        <p>منصة تقييم وتدقيق الحفظ المتقدمة</p>
     </header>
 
     <div class="container no-print">
@@ -268,7 +296,12 @@
                         <h2>👤 بدء اختبار جديد</h2>
                         
                         <div class="range-selector">
-                            <label style="font-weight: bold; color: var(--primary);">نطاق السور وعدد الأسئلة (يُنصح بـ 5-6):</label>
+                            <div style="margin-bottom: 1.5rem;">
+                                <label style="font-weight: bold; color: var(--secondary);">اسم المعلم المختبر:</label>
+                                <input type="text" id="teacherNameInput" placeholder="أدخل اسم المعلم..." style="margin-top: 8px;">
+                            </div>
+
+                            <label style="font-weight: bold; color: var(--primary);">نطاق السور وعدد الأسئلة:</label>
                             <div class="selector-grid">
                                 <div>
                                     <label style="font-size: 0.8rem; display: block;">من سورة:</label>
@@ -279,23 +312,17 @@
                                     <select id="endSurah"></select>
                                 </div>
                                 <div>
-                                    <label style="font-size: 0.8rem; display: block; color: var(--success); font-weight: bold;">عدد الأسئلة:</label>
+                                    <label style="font-size: 0.8rem; display: block; color: var(--success); font-weight: bold;">الأسئلة:</label>
                                     <input type="number" id="questionCount" value="5" min="1" max="10">
                                 </div>
                             </div>
                             
                             <div class="quick-templates">
                                 <span>نماذج سريعة:</span>
-                                <button class="template-btn" onclick="applyTemplate(77, 113, 5)">جزء عمّ (5س)</button>
-                                <button class="template-btn" onclick="applyTemplate(66, 76, 5)">جزء تبارك (5س)</button>
-                                <button class="template-btn" onclick="applyTemplate(57, 65, 5)">جزء قد سمع (5س)</button>
+                                <button class="template-btn" onclick="applyTemplate(77, 113, 5)">جزء عمّ</button>
+                                <button class="template-btn" onclick="applyTemplate(66, 76, 5)">جزء تبارك</button>
                                 <button class="template-btn" onclick="applyTemplate(0, 113, 10)">القرآن كاملاً</button>
                             </div>
-                        </div>
-
-                        <div class="mode-selector">
-                            <div class="mode-option active" id="modeNormal" onclick="setMode('normal')">مراجعة عامة</div>
-                            <div class="mode-option" id="modeChallenge" onclick="setMode('challenge')">متشابهات وتحدي</div>
                         </div>
 
                         <div style="display: flex; gap: 12px;">
@@ -307,12 +334,7 @@
                     <div class="card">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                             <h2>📋 سجل النتائج التراكمي</h2>
-                            <div style="display: flex; gap: 8px;">
-                                <button class="btn btn-outline btn-sm" onclick="exportDataExcel()">تصدير CSV</button>
-                                <button class="btn btn-outline btn-sm" onclick="backupData()">💾 حفظ نسخة</button>
-                                <button class="btn btn-outline btn-sm" onclick="document.getElementById('importFile').click()">📂 استعادة</button>
-                                <input type="file" id="importFile" style="display:none" onchange="restoreData(event)">
-                            </div>
+                            <button class="btn btn-outline btn-sm" onclick="exportDataExcel()">تصدير CSV</button>
                         </div>
                         <div class="table-container">
                             <table id="mainResultsTable">
@@ -321,8 +343,8 @@
                                         <th>اسم الطالب</th>
                                         <th>الدرجة</th>
                                         <th>النطاق</th>
+                                        <th>بإشراف</th>
                                         <th>التاريخ</th>
-                                        <th>إجراء</th>
                                     </tr>
                                 </thead>
                                 <tbody id="resultsGrid"></tbody>
@@ -337,7 +359,7 @@
                         <div id="topStudentsList"></div>
                     </div>
                     <div class="card" style="background: #fffdf5; border: 1px solid #ffeeba;">
-                        <h2 style="font-size: 1.3rem;">💡 نصيحة اليوم</h2>
+                        <h2 style="font-size: 1.3rem;">💡 توجيه</h2>
                         <p id="dailyPedagogicalTip" style="font-style: italic; color: #744210;"></p>
                     </div>
                 </div>
@@ -357,19 +379,11 @@
 
                 <div class="verse-box">
                     <div id="verseDisplayArea" class="verse-text"></div>
-                    <button class="btn btn-outline btn-sm" onclick="toggleTadabbur()">💡 تدبر المعنى</button>
-                    <div id="tadabburTextContent" class="tadabbur-box"></div>
                 </div>
 
-                <div style="background: #fdfdfd; padding: 20px; border-radius: 20px; margin-bottom: 2rem; border: 1px dashed #ccc; text-align: center;">
-                    <div id="recordingLabel" style="display:none; color: var(--danger); font-weight: bold; margin-bottom: 10px;">🔴 جاري تسجيل القراءة...</div>
-                    <button id="recordButton" class="btn btn-danger" onclick="captureAudio()">🎙️ تسجيل المقطع</button>
-                    <button id="previewAudioButton" class="btn btn-secondary" style="display:none" onclick="playCurrentPreview()">▶️ استماع</button>
-                </div>
-
-                <div class="tajweed-box">
+                <div class="tajweed-box" style="padding: 15px; background: #f1f3f5; border-radius: 15px; margin-bottom: 20px;">
                     <label style="font-weight: bold;">الملاحظات التجويدية:</label>
-                    <div class="tajweed-grid">
+                    <div class="tajweed-grid" style="margin-top: 10px;">
                         <div class="taj-chip" onclick="this.classList.toggle('selected')">غنة</div>
                         <div class="taj-chip" onclick="this.classList.toggle('selected')">مدود</div>
                         <div class="taj-chip" onclick="this.classList.toggle('selected')">مخارج</div>
@@ -395,44 +409,61 @@
                 <div id="finalLevelStatus"></div>
                 
                 <div style="display: flex; gap: 15px; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
-                    <button id="btnCertificate" class="btn btn-accent" style="display:none" onclick="triggerCertificatePrint()">📄 شهادة تفوق</button>
-                    <button class="btn btn-success" onclick="shareOnWhatsApp()">💬 مشاركة واتساب</button>
+                    <button id="btnCertificate" class="btn btn-accent" style="display:none" onclick="triggerCertificatePrint()">📄 إصدار شهادة ملكية</button>
+                    <button class="btn btn-success" onclick="shareOnWhatsApp()">💬 إرسال النتيجة واتساب</button>
                     <button class="btn btn-primary" onclick="saveRecordAndClose()">حفظ وإغلاق</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Student Profile Modal -->
-    <div id="studentProfileModal" class="modal" onclick="closeProfile(event)">
-        <div class="modal-body" onclick="event.stopPropagation()">
-            <button style="position: absolute; top: 20px; left: 20px; border: none; background: #eee; width: 40px; height: 40px; border-radius: 50%;" onclick="document.getElementById('studentProfileModal').style.display='none'">✕</button>
-            <h2 id="profStudentName">ملف الطالب</h2>
-            <div id="studentHistoryTable"></div>
-        </div>
-    </div>
-
-    <!-- Certificate -->
+    <!-- Professional Certificate Template -->
     <div id="printCertificate">
-        <div style="text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-            <p>بسم الله الرحمن الرحيم</p>
-            <h1 style="font-size: 3.5rem; color: var(--primary); font-family: 'Amiri';">شهادة إتقان وتفوق</h1>
-            <p style="font-size: 1.5rem;">يشهد المعلم عمر بن عبدالحميد الإمام بأن الطالب:</p>
-            <div id="certNameSlot" style="font-size: 3rem; color: var(--accent); font-family: 'Amiri'; border-bottom: 2px dashed var(--primary); width: 80%; margin: 10px auto;">...</div>
-            <p style="font-size: 1.5rem;">قد أتم اختبار المراجعة بنجاح في نطاق:</p>
-            <div id="certRangeSlot" style="font-size: 1.4rem; font-weight: bold; color: #555;">...</div>
-            <p style="font-size: 1.5rem;">وحصل على درجة:</p>
-            <div id="certScoreSlot" style="font-size: 2.8rem; font-weight: bold;">10 / 10</div>
-            <div style="display: flex; justify-content: space-around; margin-top: 30px;">
-                <p>تاريخ: <span id="certDateSlot"></span></p>
-                <p>توقيع المعلم</p>
+        <div class="cert-border-outer">
+            <div class="cert-border-inner">
+                <!-- Corners Decorative Elements -->
+                <div class="cert-corner top-left"></div>
+                <div class="cert-corner top-right"></div>
+                <div class="cert-corner bottom-left"></div>
+                <div class="cert-corner bottom-right"></div>
+
+                <div class="cert-header">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+                <h1 class="cert-title">شَهَادَة تَقْدِير وَتَفَوُّق</h1>
+                
+                <div class="cert-body">
+                    بِفَضْلِ اللَّهِ تَعَالَى وَبِتَوْفِيقِهِ، يَسُرُّ المعلم: 
+                    <span id="certTeacherName" style="font-weight: bold; color: var(--primary);">...</span>
+                    أَنْ يَمْنَحَ هَذِهِ الشَّهَادَةَ لِلطَّالِبِ المتميز:
+                </div>
+
+                <div class="cert-name" id="certNameSlot">...</div>
+
+                <div class="cert-body">
+                    لِتَمَيُّزِهِ وَإِتْقَانِهِ فِي اخْتِبَارِ مُرَاجَعَةِ:
+                    <br><span id="certRangeSlot" style="font-weight: bold; color: var(--secondary);">...</span>
+                    <br>بِتَقْدِيرٍ مُمْتَازٍ وَبِدَرَجَةِ نِهَائِيَّةٍ:
+                </div>
+
+                <div class="cert-score" id="certScoreSlot">...</div>
+
+                <div class="cert-body" style="font-style: italic; font-size: 1.4rem;">
+                    "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ"
+                </div>
+
+                <div class="cert-footer">
+                    <div>تاريخ الإصدار: <br> <span id="certDateSlot"></span></div>
+                    <div style="text-align: center;">
+                        خَتْمُ وَتَوْقِيعُ المعلم <br>
+                        <div class="signature-line" id="certSignatureName">...</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         let storageDB;
-        const dbReq = indexedDB.open("QuranComprehensiveV15", 1);
+        const dbReq = indexedDB.open("QuranComprehensiveV16", 1);
         dbReq.onupgradeneeded = (e) => {
             storageDB = e.target.result;
             if (!storageDB.objectStoreNames.contains("voiceLogs")) storageDB.createObjectStore("voiceLogs", { keyPath: "id" });
@@ -442,68 +473,30 @@
         const surahs = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
 
         const comprehensiveBank = [
-            // Juz' 30
-            { t: "﴿عَمَّ يَتَسَاءَلُونَ * عَنِ النَّبَإِ الْعَظِيمِ﴾", sidx: 77, s: "النبأ", m: "تساؤل المشركين عن يوم البعث.", c: false },
-            { t: "﴿إِذَا الشَّمْسُ كُوِّرَتْ * وَإِذَا النُّجُومُ انكَدَرَتْ﴾", sidx: 80, s: "التكوير", m: "أهوال يوم القيامة وتغير الكون.", c: false },
-            { t: "﴿إِذَا السَّمَاءُ انفَطَرَتْ * وَإِذَا الْكَوَاكِبُ انتَثَرَتْ﴾", sidx: 81, s: "الانفطار", m: "مشاهد يوم القيامة وانفطار السماء.", c: false },
-            { t: "﴿يَا أَيُّهَا الْإِنسَانُ مَا غَرَّكَ بِرَبِّكَ الْكَرِيمِ﴾", sidx: 81, s: "الانفطار", m: "تذكير الإنسان بفضل الله عليه.", c: true },
-            { t: "﴿وَيْلٌ لِّلْمُطَفِّفِينَ * الَّذِينَ إِذَا اكْتَالُوا﴾", sidx: 82, s: "المطففين", m: "تحذير من الغش في الكيل والميزان.", c: false },
-            { t: "﴿إِذَا السَّمَاءُ انشَقَّتْ * وَأَذِنَتْ لِرَبِّهَا وَحُقَّتْ﴾", sidx: 83, s: "الانشقاق", m: "استسلام السماء لأمر ربها يوم القيامة.", c: false },
-            { t: "﴿وَالسَّمَاءِ ذَاتِ الْبُرُوجِ * وَالْيَوْمِ الْمَوْعُودِ﴾", sidx: 84, s: "البروج", m: "قسم بالسماء ذات المنازل العظيمة.", c: false },
-            { t: "﴿وَالسَّمَاءِ وَالطَّارِقِ * وَمَا أَدْرَاكَ مَا الطَّارِقُ﴾", sidx: 85, s: "الطارق", m: "القسم بالسماء وبالنجم الثاقب.", c: false },
-            { t: "﴿سَبِّحِ اسْمَ رَبِّكَ الْأَعْلَى * الَّذِي خَلَقَ فَسَوَّىٰ﴾", sidx: 86, s: "الأعلى", m: "تنزيه الله ووصف كمال خلقه.", c: false },
-            { t: "﴿هَلْ أَتَاكَ حَدِيثُ الْغَاشِيَةِ * وُجُوهٌ يَوْمَئِذٍ خَاشِعَةٌ﴾", sidx: 87, s: "الغاشية", m: "وصف لأهوال يوم القيامة وحال الناس فيه.", c: false },
-            { t: "﴿وَالْفَجْرِ * وَلَيَالٍ عَشْرٍ * وَالشَّفْعِ وَالْوَتْرِ﴾", sidx: 88, s: "الفجر", m: "قسم بالأوقات المباركة لبيان عظمة الخالق.", c: false },
-            { t: "﴿لَا أُقْسِمُ بِهَذَا الْبَلَدِ * وَأَنتَ حِلٌّ بِهَذَا الْبَلَدِ﴾", sidx: 89, s: "البلد", m: "قسم بمكة المكرمة وتذكير بمكابدة الإنسان.", c: true },
-            { t: "﴿وَالشَّمْسِ وَضُحَاهَا * وَالْقَمَرِ إِذَا تَلَاهَا﴾", sidx: 90, s: "الشمس", m: "قسم بالآيات الكونية على فلاح من زكى نفسه.", c: false },
-            { t: "﴿وَاللَّيْلِ إِذَا يَغْشَىٰ * وَالنَّهَارِ إِذَا تَجَلَّىٰ﴾", sidx: 91, s: "الليل", m: "تفاوت سعي الناس وجزاء كل منهم.", c: false },
-            { t: "﴿وَالضُّحَىٰ * وَاللَّيْلِ إِذَا سَجَىٰ﴾", sidx: 92, s: "الضحى", m: "تسلية للنبي ﷺ وتذكير بنعم الله عليه.", c: false },
-            { t: "﴿أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ * وَوَضَعْنَا عَنكَ وِزْرَكَ﴾", sidx: 93, s: "الشرح", m: "بيان منة الله على النبي ﷺ بشرح صدره.", c: false },
-            { t: "﴿وَالتِّينِ وَالزَّيْتُونِ * وَطُورِ سِينِينَ﴾", sidx: 94, s: "التين", m: "قسم بالأماكن المقدسة على تكريم خلق الإنسان.", c: false },
-            { t: "﴿اقْرأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ * خَلَقَ الْإِنسَانَ﴾", sidx: 95, s: "العلق", m: "أول ما نزل من القرآن الكريم.", c: false },
-            { t: "﴿إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ﴾", sidx: 96, s: "القدر", m: "فضل ليلة القدر وعظمة نزول القرآن فيها.", c: false },
-
-            // Juz' 29
-            { t: "﴿تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ﴾", sidx: 66, s: "الملك", m: "إثبات الملك والقدرة المطلقة لله تعالى.", c: false },
-            { t: "﴿ن والقلم وما يسطرون * ما أنت بنعمة ربك بمجنون﴾", sidx: 67, s: "القلم", m: "دفاع الله عن نبيه ﷺ والثناء على خلقه.", c: false },
-            { t: "﴿الْحَاقَّةُ * مَا الْحَاقَّةُ * وَمَا أَدْرَاكَ مَا الْحَاقَّةُ﴾", sidx: 68, s: "الحاقة", m: "القيامة التي تحق فيها الوعود والوعيد.", c: false },
-            { t: "﴿سأل سائل بعذاب واقع * للكافرين ليس له دافع﴾", sidx: 69, s: "المعارج", m: "استعجال الكفار للعذاب ووصف أهوال القيامة.", c: false },
-            { t: "﴿إنا أرسلنا نوحاً إلى قومه أن أنذر قومك﴾", sidx: 70, s: "نوح", m: "بدء قصة نوح عليه السلام ودعوته لقومه.", c: false },
-            { t: "﴿قل أوحي إلي أنه استمع نفر من الجن﴾", sidx: 71, s: "الجن", m: "إيمان نفر من الجن عند سماعهم للقرآن.", c: true },
-            { t: "﴿يَا أَيُّهَا الْمُزَّمِّلُ * قُمِ اللَّيْلَ إِلَّا قَلِيلًا﴾", sidx: 72, s: "المزمل", m: "أمر النبي ﷺ بالقيام والتهجد.", c: false },
-            { t: "﴿يَا أَيُّهَا الْمُدَّثِّرُ * قُمْ فَأَنذِرْ * وَرَبَّكَ فَكَبِّرْ﴾", sidx: 73, s: "المدثر", m: "أمر النبي ﷺ بالتبليغ والإنذار.", c: false },
-            { t: "﴿لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ * وَلَا أُقْسِمُ بِالنَّفْسِ اللَّوَّامَةِ﴾", sidx: 74, s: "القيامة", m: "قسم بيوم البعث وبالنفس التي تلوم صاحبها.", c: false },
-            { t: "﴿هَلْ أَتَىٰ عَلَى الْإِنسَانِ حِينٌ مِّنَ الدَّهْرِ﴾", sidx: 75, s: "الإنسان", m: "تذكير الإنسان بأصله وتكريمه بالهداية.", c: false },
-            { t: "﴿وَالْمُرْسَلَاتِ عُرْفًا * فَالْعَاصِفَاتِ عَصْفًا﴾", sidx: 76, s: "المرسلات", m: "قسم بالرياح والملائكة على صدق البعث.", c: false },
-
-            // Juz' 28
-            { t: "﴿قَدْ سَمِعَ اللَّهُ قَوْلَ الَّتِي تُجَادِلُكَ فِي زَوْجِهَا﴾", sidx: 57, s: "المجادلة", m: "بيان رحمة الله وسماعه لشكوى خولة بنت ثعلبة.", c: false },
-            { t: "﴿سَبَّحَ لِلَّهِ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ وَهُوَ الْعَزِيزُ الْحَكِيمُ﴾", sidx: 58, s: "الحشر", m: "تسبيح الكائنات لله وبيان قوته وحكمته.", c: false },
-            { t: "﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ﴾", sidx: 58, s: "الحشر", m: "الأمر بالتقوى والاستعداد ليوم الحساب.", c: true },
-            { t: "﴿يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا نُودِيَ لِلصَّلَاةِ مِن يَوْمِ الْجُمُعَةِ﴾", sidx: 61, s: "الجمعة", m: "الأمر بالسعي لصلاة الجمعة وترك البيع.", c: false },
-            { t: "﴿يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تُلْهِكُمْ أَمْوَالُكُمْ وَلَا أَوْلَادُكُمْ﴾", sidx: 62, s: "المنافقون", m: "التحذير من الانشغال بالدنيا عن ذكر الله.", c: false },
-            { t: "﴿يَا أَيُّهَا الَّذِينَ آمَنُوا تُوبُوا إِلَى اللَّهِ تَوْبَةً نَّصُوحًا﴾", sidx: 65, s: "التحريم", m: "دعوة المؤمنين للتوبة الصادقة لتكفير الذنوب.", c: true },
-
-            // General Samples (Juz 1-27)
-            { t: "﴿الم * ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِّلْمُتَّقِينَ﴾", sidx: 1, s: "البقرة", m: "القرآن هداية للمتقين.", j: 1, c: false },
-            { t: "﴿وَإِذْ قَالَ رَبُّكَ لِلْمَلَائِكَةِ إِنِّي جَاعِلٌ فِي الْأَرْضِ خَلِيفَةً﴾", sidx: 1, s: "البقرة", m: "بداية خلق آدم عليه السلام.", j: 1, c: true },
-            { t: "﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ﴾", sidx: 1, s: "البقرة", m: "فضل شهر رمضان ونزول القرآن فيه.", j: 2, c: false },
-            { t: "﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ﴾", sidx: 1, s: "البقرة", m: "آية الكرسي، أعظم آية في كتاب الله.", j: 3, c: false },
-            { t: "﴿سُبْحَانَ الَّذِي أَسْرَىٰ بِعَبْدِهِ لَيْلًا مِّنَ الْمَسْجِدِ الْحَرَامِ﴾", sidx: 16, s: "الإسراء", m: "ذكر معجزة الإسراء والمعراج.", j: 15, c: false },
-            { t: "﴿قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَى أَنفُسِهِمْ لَا تَقْنَطُوا﴾", sidx: 38, s: "الزمر", m: "سعة رحمة الله للتائبين.", j: 24, c: true }
+            { t: "﴿ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِّلْمُتَّقِينَ﴾", sidx: 1, s: "البقرة", j: 1 },
+            { t: "﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ﴾", sidx: 1, s: "البقرة", j: 2 },
+            { t: "﴿لَن تَنَالُوا الْبِرَّ حَتَّى تُنفِقُوا مِمَّا تُحِبُّونَ﴾", sidx: 2, s: "آل عمران", j: 4 },
+            { t: "﴿سُبْحَانَ الَّذِي أَسْرَى بِعَبْدِهِ لَيْلًا مِّنَ الْمَسْجِدِ الْحَرَامِ﴾", sidx: 16, s: "الإسراء", j: 15 },
+            { t: "﴿تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ﴾", sidx: 66, s: "الملك", j: 29 },
+            { t: "﴿عَمَّ يَتَسَاءَلُونَ * عَنِ النَّبَإِ الْعَظِيمِ﴾", sidx: 77, s: "النبأ", j: 30 },
+            { t: "﴿وَالْمُرْسَلَاتِ عُرْفًا * فَالْعَاصِفَاتِ عَصْفًا﴾", sidx: 76, s: "المرسلات", j: 29 },
+            { t: "﴿يَا أَيُّهَا الْمُزَّمِّلُ * قُمِ اللَّيْلَ إِلَّا قَلِيلًا﴾", sidx: 72, s: "المزمل", j: 29 },
+            { t: "﴿إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ * فَصَلِّ لِرَبِّكَ وَانْحَرْ﴾", sidx: 107, s: "الكوثر", j: 30 },
+            { t: "﴿اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ﴾", sidx: 95, s: "العلق", j: 30 },
+            { t: "﴿قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا﴾", sidx: 8, s: "التوبة", j: 10 }
         ];
 
         let state = {
+            teacherName: localStorage.getItem('teacher_name') || "",
             mode: 'normal', student: "", scores: [], mistakes: [], step: 0, 
-            activePool: [], voiceBlobs: [], totalQ: 5,
-            archive: JSON.parse(localStorage.getItem('v15_archive') || '[]'),
+            activePool: [], totalQ: 5,
+            archive: JSON.parse(localStorage.getItem('v16_archive') || '[]'),
             startS: 0, endS: 113
         };
 
-        let recorder, chunks = [];
-
         window.onload = () => {
             initSelectors();
+            document.getElementById('teacherNameInput').value = state.teacherName;
             syncDashboard();
         };
 
@@ -522,24 +515,22 @@
             document.getElementById('questionCount').value = count;
         }
 
-        function setMode(m) {
-            state.mode = m;
-            document.getElementById('modeNormal').className = `mode-option ${m==='normal'?'active':''}`;
-            document.getElementById('modeChallenge').className = `mode-option ${m==='challenge'?'active':''}`;
-        }
-
         function startAssessment() {
             const name = document.getElementById('studentSearchInput').value.trim();
+            const teacher = document.getElementById('teacherNameInput').value.trim();
             if (!name) return alert("يرجى كتابة اسم الطالب");
+            if (!teacher) return alert("يرجى كتابة اسم المعلم المختبر");
+
+            // Save teacher name for next time
+            state.teacherName = teacher;
+            localStorage.setItem('teacher_name', teacher);
 
             const from = parseInt(document.getElementById('startSurah').value);
             const to = parseInt(document.getElementById('endSurah').value);
             const qCount = parseInt(document.getElementById('questionCount').value);
 
             let pool = comprehensiveBank.filter(v => v.sidx >= from && v.sidx <= to);
-            if (state.mode === 'challenge') pool = pool.filter(v => v.c);
-
-            if (pool.length < 1) return alert("لا توجد أسئلة كافية في هذا النطاق المختار. يرجى توسيع النطاق.");
+            if (pool.length < 1) return alert("لا يوجد أسئلة كافية في هذا النطاق.");
 
             state.student = name;
             state.scores = [];
@@ -561,15 +552,7 @@
             const v = state.activePool[state.step];
             document.getElementById('progressCounter').innerText = `السؤال ${state.step + 1} / ${state.totalQ}`;
             document.getElementById('verseDisplayArea').innerText = v.t;
-            document.getElementById('tadabburTextContent').innerText = v.m;
-            document.getElementById('tadabburTextContent').style.display = "none";
             document.querySelectorAll('.taj-chip').forEach(c => c.classList.remove('selected'));
-            document.getElementById('previewAudioButton').style.display = "none";
-        }
-
-        function toggleTadabbur() {
-            const el = document.getElementById('tadabburTextContent');
-            el.style.display = el.style.display === 'none' ? 'block' : 'none';
         }
 
         function gradeStep(pts) {
@@ -592,35 +575,17 @@
             document.getElementById('performanceSummaryView').classList.add('active');
         }
 
-        function shareOnWhatsApp() {
-            const total = state.scores.reduce((a,b) => a+b, 0);
-            const max = state.totalQ * 2;
-            const text = `نتائج اختبار التسميع 📖%0Aالطالب: ${state.student}%0Aالدرجة: ${total}/${max}%0Aالنطاق: من ${surahs[state.startS]} إلى ${surahs[state.endS]}%0Aبارك الله فيه وزاده حرصاً.`;
-            window.open(`https://wa.me/?text=${text}`, '_blank');
-        }
-
-        function backupData() {
-            const data = localStorage.getItem('v15_archive');
-            const blob = new Blob([data], {type: 'application/json'});
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `سجل_الحلقة_${Date.now()}.json`; a.click();
-        }
-
-        function restoreData(e) {
-            const reader = new FileReader();
-            reader.onload = (event) => { localStorage.setItem('v15_archive', event.target.result); location.reload(); };
-            reader.readAsText(e.target.files[0]);
-        }
-
         function saveRecordAndClose() {
             const rid = Date.now();
             const record = {
                 id: rid, name: state.student, score: state.scores.reduce((a,b)=>a+b, 0), max: state.totalQ * 2,
                 range: `من ${surahs[state.startS]} إلى ${surahs[state.endS]}`,
-                date: new Date().toLocaleDateString('ar-SA'), mistakes: [...new Set(state.mistakes)].join('، '),
-                hasAudio: state.voiceBlobs.length > 0
+                teacher: state.teacherName,
+                date: new Date().toLocaleDateString('ar-SA'), 
+                mistakes: [...new Set(state.mistakes)].join('، ')
             };
             state.archive.unshift(record);
-            localStorage.setItem('v15_archive', JSON.stringify(state.archive));
+            localStorage.setItem('v16_archive', JSON.stringify(state.archive));
             syncDashboard();
             document.getElementById('performanceSummaryView').classList.remove('active');
             document.getElementById('mainDashboard').classList.add('active');
@@ -630,64 +595,33 @@
             const grid = document.getElementById('resultsGrid');
             grid.innerHTML = '';
             state.archive.slice(0, 15).forEach(res => {
-                grid.innerHTML += `<tr><td><span class="student-link" onclick="openProfile('${res.name}')">${res.name}</span></td><td><b>${res.score}/${res.max}</b></td><td>${res.range}</td><td>${res.date}</td><td><button onclick="delRec(${res.id})" style="border:none;background:none;cursor:pointer;">❌</button></td></tr>`;
+                grid.innerHTML += `<tr><td><span class="student-link">${res.name}</span></td><td><b>${res.score}/${res.max}</b></td><td>${res.range}</td><td>${res.teacher || '--'}</td><td>${res.date}</td></tr>`;
             });
-            const top = document.getElementById('topStudentsList');
-            const sorted = [...state.archive].sort((a,b) => (b.score/b.max) - (a.score/a.max)).slice(0, 5);
-            top.innerHTML = sorted.length ? '' : 'لا توجد بيانات.';
-            sorted.forEach((s, i) => {
-                top.innerHTML += `<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;"><span>${i+1}. ${s.name}</span><b>${Math.round((s.score/s.max)*100)}%</b></div>`;
-            });
-            document.getElementById('dailyPedagogicalTip').innerText = "إنما يثبت القرآن بكثرة التكرار والتعاهد، فتعاهده دوماً.";
+            document.getElementById('dailyPedagogicalTip').innerText = "المعلم هو القدوة الأولى للطالب في تعظيمه لكتاب الله.";
         }
-
-        function openProfile(name) {
-            const hist = state.archive.filter(r => r.name === name);
-            const table = document.getElementById('studentHistoryTable');
-            table.innerHTML = hist.map(h => `<div style="padding:10px; border:1px solid #eee; border-radius:10px; margin-bottom:5px;"><b>درجة: ${h.score}/${h.max}</b> | ${h.range} | ${h.date}</div>`).join('');
-            document.getElementById('profStudentName').innerText = `ملف الطالب: ${name}`;
-            document.getElementById('studentProfileModal').style.display = 'flex';
-        }
-
-        async function captureAudio() {
-            const btn = document.getElementById('recordButton');
-            if (recorder && recorder.state === "recording") {
-                recorder.stop(); btn.innerText = "🎙️ تسجيل المقطع";
-                document.getElementById('recordingLabel').style.display = "none";
-            } else {
-                try {
-                    const str = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    recorder = new MediaRecorder(str); chunks = [];
-                    recorder.ondataavailable = e => chunks.push(e.data);
-                    recorder.onstop = () => {
-                        const blob = new Blob(chunks, { type: 'audio/webm' });
-                        state.voiceBlobs.push(blob);
-                        window.tempUrl = URL.createObjectURL(blob);
-                        document.getElementById('previewAudioButton').style.display = "inline-flex";
-                    };
-                    recorder.start(); btn.innerText = "🛑 إيقاف";
-                    document.getElementById('recordingLabel').style.display = "block";
-                } catch (e) { alert("تعذر الوصول للميكروفون."); }
-            }
-        }
-
-        function playCurrentPreview() { if(window.tempUrl) new Audio(window.tempUrl).play(); }
 
         function triggerCertificatePrint() {
             document.getElementById('certNameSlot').innerText = state.student;
+            document.getElementById('certTeacherName').innerText = state.teacherName;
+            document.getElementById('certSignatureName').innerText = state.teacherName;
             document.getElementById('certScoreSlot').innerText = `${state.scores.reduce((a,b)=>a+b,0)} / ${state.totalQ * 2}`;
             document.getElementById('certRangeSlot').innerText = document.getElementById('activeRangeLabel').innerText;
             document.getElementById('certDateSlot').innerText = new Date().toLocaleDateString('ar-SA');
             window.print();
         }
 
-        function delRec(id) { if(confirm("حذف النتيجة؟")) { state.archive = state.archive.filter(r => r.id !== id); localStorage.setItem('v15_archive', JSON.stringify(state.archive)); syncDashboard(); } }
-        function closeProfile(e) { if(e.target.className === 'modal') e.target.style.display='none'; }
+        function shareOnWhatsApp() {
+            const total = state.scores.reduce((a,b) => a+b, 0);
+            const max = state.totalQ * 2;
+            const text = `نتائج اختبار التسميع 📖%0Aالطالب: ${state.student}%0Aالدرجة: ${total}/${max}%0Aالمعلم المشرف: ${state.teacherName}%0Aالنطاق: ${document.getElementById('activeRangeLabel').innerText}%0Aبارك الله فيه وزاده حرصاً.`;
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
         function exportDataExcel() {
-            let csv = "الاسم,الدرجة,النطاق,التاريخ\n";
-            state.archive.forEach(r => csv += `${r.name},${r.score}/${r.max},${r.range},${r.date}\n`);
+            let csv = "الاسم,الدرجة,النطاق,المعلم,التاريخ\n";
+            state.archive.forEach(r => csv += `${r.name},${r.score}/${r.max},${r.range},${r.teacher},${r.date}\n`);
             const blob = new Blob(["\ufeff" + csv], { type: 'text/csv' });
-            const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "سجل_الحلقة.csv"; link.click();
+            const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "سجل_الحلقة_v16.csv"; link.click();
         }
     </script>
 </body>
