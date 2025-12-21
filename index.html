@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الاختبارات القرآنية الاحترافية - v25.0</title>
+    <title>منصة الاختبارات القرآنية الاحترافية - v26.0</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;500;700&display=swap');
 
@@ -108,6 +108,7 @@
         .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
         .btn-success { background: var(--success); color: white; }
         .btn-danger { background: var(--danger); color: white; }
+        .btn-warning { background: var(--warning); color: white; }
 
         .settings-grid {
             display: grid;
@@ -164,12 +165,20 @@
         .penalty-notice {
             color: var(--danger);
             font-weight: bold;
-            font-size: 1rem;
-            margin-top: 10px;
+            font-size: 1.1rem;
+            margin-top: 15px;
             display: none;
-            padding: 10px;
-            border: 1px dashed var(--danger);
-            border-radius: 10px;
+            padding: 15px;
+            background: #fff5f5;
+            border: 2px dashed var(--danger);
+            border-radius: 15px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
         .table-container { overflow-x: auto; border-radius: 15px; }
@@ -264,7 +273,7 @@
 <body>
 
     <header class="app-header no-print">
-        <h1>مساعد المعلم القرآني الذكي <small style="font-size: 1rem; opacity: 0.8;">v25.0</small></h1>
+        <h1>مساعد المعلم القرآني الذكي <small style="font-size: 1rem; opacity: 0.8;">v26.0</small></h1>
         <p>نظام التقييم والتدقيق القرآني الاحترافي الشامل</p>
     </header>
 
@@ -387,15 +396,22 @@
                     <div id="verseDisplayArea" class="verse-text"></div>
                     <div id="errorCounterSection" style="display:none;">
                         <div class="error-counter-box" id="errorDotsContainer"></div>
-                        <div class="penalty-notice" id="penaltyNotice">⚠️ تجاوز الأخطاء.. جاري تبديل السؤال بخصم (2) درجة.</div>
+                        <div class="penalty-notice" id="penaltyNotice">
+                            ⚠️ تم استنفاد الأخطاء المسموحة للسؤال!<br>
+                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                                <button class="btn btn-warning" style="font-size: 0.8rem; padding: 8px 15px;" onclick="swapQuestionManual(true)">🔄 تبديل السؤال (-2 درجة)</button>
+                                <button class="btn btn-danger" style="font-size: 0.8rem; padding: 8px 15px;" onclick="loseQuestionPoints()">❌ خسارة درجة السؤال (0)</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="evalSystem50" style="display:none;">
-                    <div style="display: flex; gap: 15px; margin-bottom: 1.5rem;">
-                        <button class="btn btn-danger" style="flex: 1; padding: 20px;" onclick="addMistake()">❌ رصد خطأ / تنبيه</button>
-                        <button class="btn btn-secondary" style="flex: 1;" onclick="swapQuestionManual()">🔄 تبديل السؤال (-2)</button>
+                    <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                        <button id="addErrorBtn" class="btn btn-danger" style="flex: 1; padding: 15px;" onclick="addMistake()">❌ خطأ / تنبيه (-0.5)</button>
+                        <button class="btn btn-secondary" style="flex: 1; padding: 15px;" onclick="swapQuestionManual(false)">⚖️ تبديل (تكرار أو ظلم)</button>
+                        <button class="btn btn-warning" style="flex: 1; padding: 15px;" onclick="swapQuestionManual(true)">🔄 تبديل اضطراري (-2)</button>
                     </div>
-                    <button class="btn btn-success" style="width: 100%; height: 60px;" onclick="finishQuestion50()">✅ تم الإكمال</button>
+                    <button id="nextQuestionBtn" class="btn btn-success" style="width: 100%; height: 60px;" onclick="finishQuestion50()">✅ السؤال التالي (حفظ الدرجة)</button>
                 </div>
                 <div id="evalSystem10" style="display:none; grid-template-columns: repeat(3, 1fr); gap: 15px;">
                     <button class="btn btn-success" onclick="gradeStep(2)">صحيح (2)</button>
@@ -609,13 +625,13 @@
             // الليل (91)
             { t: "﴿وَاللَّيْلِ إِذَا يَغْشَىٰ * وَالنَّهَارِ إِذَا تَجَلَّى﴾", sidx: 91, type: 'snippet' },
             // الضحى (92)
-            { t: "﴿وَالضُّحَىٰ * وَاللَّيْلِ إِذَا سَجَىٰ﴾", sidx: 92, type: 'snippet' },
+            { t: "﴿وَالضُّحَى * وَاللَّيْلِ إِذَا سَجَى﴾", sidx: 92, type: 'snippet' },
             // الشرح (93)
             { t: "﴿أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ * وَوَضَعْنَا عَنكَ وِزْرَكَ﴾", sidx: 93, type: 'snippet' },
             // التين (94)
             { t: "﴿وَالتِّينِ وَالزَّيْتُونِ * وَطُورِ سِينِينَ﴾", sidx: 94, type: 'snippet' },
             // العلق (95)
-            { t: "﴿اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ * خَلَقَ الْإِنسَانَ مِن عَلَقٍ﴾", sidx: 95, type: 'snippet' },
+            { t: "﴿اقْرأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ * خَلَقَ الْإِنسَانَ مِن عَلَقٍ﴾", sidx: 95, type: 'snippet' },
             // القدر (96)
             { t: "﴿إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ﴾", sidx: 96, type: 'snippet' },
             // البينة (97)
@@ -760,6 +776,11 @@
             }
             state.currentMistakes = 0;
             document.getElementById('penaltyNotice').style.display = "none";
+            
+            // Enable controls
+            document.getElementById('addErrorBtn').disabled = false;
+            document.getElementById('nextQuestionBtn').disabled = false;
+
             const is50 = state.maxScore === 50;
             document.getElementById('evalSystem50').style.display = is50 ? "block" : "none";
             document.getElementById('evalSystem10').style.display = is50 ? "none" : "grid";
@@ -782,29 +803,49 @@
                 state.currentMistakes++; renderErrorDots();
                 if(state.currentMistakes === 5) {
                     document.getElementById('penaltyNotice').style.display = "block";
-                    setTimeout(swapQuestionManual, 1500);
+                    // Disable scoring to force a choice
+                    document.getElementById('addErrorBtn').disabled = true;
+                    document.getElementById('nextQuestionBtn').disabled = true;
                 }
             }
         }
 
-        function swapQuestionManual() {
-            state.totalPenalty += 2;
+        function swapQuestionManual(isPenalty) {
+            if (isPenalty) {
+                state.totalPenalty += 2;
+            }
+            
             const from = parseInt(document.getElementById('startSurah').value);
             const to = parseInt(document.getElementById('endSurah').value);
             const fullBank = [...defaultBank, ...state.customBank];
+            // Look for a replacement that is NOT already in the pool
             let others = fullBank.filter(v => v.sidx >= from && v.sidx <= to && !state.activePool.includes(v));
+            
             if(others.length > 0) {
                 state.activePool[state.step] = others[Math.floor(Math.random()*others.length)];
                 showStep();
             } else {
-                state.scores.push(0); state.step++;
-                if(state.step < state.activePool.length) showStep(); else showFinal();
+                // If no unique replacement, just lose the question or move next
+                if (isPenalty) {
+                    loseQuestionPoints();
+                } else {
+                   // Just reshuffle the same range for a random new one even if in pool (but try best)
+                   state.activePool[state.step] = fullBank.filter(v => v.sidx >= from && v.sidx <= to)[Math.floor(Math.random() * fullBank.filter(v => v.sidx >= from && v.sidx <= to).length)];
+                   showStep();
+                }
             }
+        }
+
+        function loseQuestionPoints() {
+            state.scores.push(0);
+            state.step++;
+            if(state.step < state.activePool.length) showStep(); else showFinal();
         }
 
         function finishQuestion50() {
             const weight = 50 / state.activePool.length;
-            const earned = Math.max(0, weight - (state.currentMistakes * (weight / 5)));
+            // Updated calculation: Error = -0.5 points
+            const earned = Math.max(0, weight - (state.currentMistakes * 0.5));
             state.scores.push(earned);
             state.step++;
             if(state.step < state.activePool.length) showStep(); else showFinal();
