@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الاختبارات القرآنية الاحترافية - v29.1</title>
+    <title>منصة الاختبارات القرآنية الاحترافية - v29.2</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;500;700&family=Playfair+Display:wght@400;700&display=swap');
 
@@ -224,7 +224,7 @@
 
         .table-container { overflow-x: auto; border-radius: 15px; }
         table { width: 100%; border-collapse: collapse; background: var(--card-bg); }
-        th, td { padding: 18px; text-align: right; border-bottom: 1px solid var(--border); }
+        th, td { padding: 18px; text-align: right; border-bottom: 1px solid #eee; }
         th { background: rgba(0,0,0,0.02); color: var(--primary); font-weight: 700; }
 
         .attendance-grid {
@@ -240,7 +240,7 @@
         }
         .attendance-item.present { background: rgba(39, 174, 96, 0.1); border-color: var(--success); }
 
-        /* ROYAL CERTIFICATE STYLES */
+        /* --- ROYAL CERTIFICATE RE-DESIGN --- */
         #printCertificate {
             width: 1120px;
             height: 790px;
@@ -252,6 +252,8 @@
             box-sizing: border-box;
             overflow: hidden;
             background-image: radial-gradient(circle at 50% 50%, #ffffff 0%, #fdfbf7 100%);
+            /* Set Amiri for entire print area */
+            font-family: 'Amiri', serif !important;
         }
 
         .cert-outer-frame {
@@ -260,47 +262,61 @@
             width: 100%;
             position: relative;
             box-sizing: border-box;
-            padding: 10px;
+            padding: 8px;
         }
 
         .cert-inner-frame {
-            border: 4px solid var(--gold);
+            border: 3px solid var(--gold);
             height: 100%;
             width: 100%;
             position: relative;
             box-sizing: border-box;
-            padding: 50px;
+            padding: 40px 60px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             text-align: center;
         }
 
-        .cert-header-text { font-size: 1.3rem; font-weight: 700; color: #555; letter-spacing: 1px; }
-        .cert-main-title { font-family: 'Amiri', serif; font-size: 4.8rem; color: var(--primary); margin: 0; line-height: 1; }
-        .cert-subtitle { font-size: 1.8rem; color: #444; margin-top: 10px; }
-        .cert-student-name { font-family: 'Amiri', serif; font-size: 4.2rem; color: var(--gold); margin: 20px 0; border-bottom: 2px dashed #ccc; display: inline-block; padding: 0 40px; }
-        .cert-score-box { font-size: 2.8rem; font-weight: 900; color: var(--primary); margin: 15px 0; }
+        .cert-header-text { font-size: 1.5rem; font-weight: 700; color: #444; letter-spacing: 2px; margin-bottom: 5px; }
+        .cert-main-title { font-size: 5rem; color: var(--primary); margin: 0; line-height: 1.2; text-shadow: 1px 1px 0px #fff; }
+        .cert-subtitle { font-size: 1.9rem; color: #333; margin-top: 5px; line-height: 1.5; }
+        
+        .cert-student-name { 
+            font-size: 5.5rem; 
+            color: var(--gold); 
+            margin: 15px 0; 
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+            border-bottom: 3px double var(--gold);
+            display: inline-block;
+            padding: 0 50px;
+            line-height: 1.1;
+        }
+
+        .cert-score-box { font-size: 3rem; font-weight: 900; color: var(--primary); margin: 10px 0; background: rgba(212, 175, 55, 0.1); display: inline-block; padding: 5px 30px; border-radius: 50px; }
         
         .royal-seal {
             position: absolute;
-            bottom: 40px;
-            right: 40px;
-            width: 160px;
-            height: 160px;
+            bottom: 35px;
+            right: 50px;
+            width: 170px;
+            height: 170px;
             border-radius: 50%;
-            border: 5px double white;
+            border: 6px double white;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: white;
             font-weight: bold;
-            transform: rotate(-10deg);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            font-size: 1.3rem;
+            transform: rotate(-12deg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            z-index: 5;
         }
 
-        .signature-line { border-top: 2px solid #333; width: 220px; margin: 0 auto; padding-top: 10px; font-weight: bold; font-size: 1.2rem; }
+        .signature-line { border-top: 2.5px solid #222; width: 240px; margin: 0 auto; padding-top: 8px; font-weight: bold; font-size: 1.4rem; color: #111; }
 
         @media print {
             body * { visibility: hidden; }
@@ -311,7 +327,6 @@
 
         [dir="ltr"] th, [dir="ltr"] td { text-align: left; }
 
-        /* Modal Styles */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.7); display: none;
@@ -439,7 +454,6 @@
                             <span data-i18n="masteryRate">نسبة الإتقان</span>: <b id="masteryRate">0%</b>
                         </div>
                     </div>
-                    <!-- Fixed: Restored Bank Stats Card -->
                     <div class="card">
                         <h2 data-i18n="bankInfoTitle">📖 إحصائية البنك</h2>
                         <div style="font-size: 0.95rem;">
@@ -509,19 +523,41 @@
         </div>
     </div>
 
+    <!-- RE-DESIGNED ROYAL CERTIFICATE TEMPLATE -->
     <div id="printCertificate">
         <div class="cert-outer-frame">
             <div class="cert-inner-frame">
                 <div class="cert-header-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
                 <h1 class="cert-main-title" id="certTitleLang">شَهَادَة إتْقَان وَتَفَوُّق</h1>
-                <div class="cert-subtitle" id="certIntroLang">...</div>
-                <div class="cert-name" id="certNameSlot">...</div>
-                <div class="cert-subtitle" id="certBodyLang">...</div>
+                
+                <div class="cert-subtitle" id="certIntroLang">
+                    بِفَضْلِ اللَّهِ تَعَالَى وَبِتَوْفِيقِهِ، يَسُرُّ المعلم: 
+                    <span id="certTeacherName" style="color: var(--primary); font-weight: bold; text-decoration: underline;">...</span>
+                    أَنْ يَمْنَحَ هَذِهِ الشَّهَادَةَ لِلطَّالِبِ المتميز:
+                </div>
+
+                <div class="cert-student-name" id="certNameSlot">...</div>
+
+                <div class="cert-subtitle" id="certBodyLang">
+                    لِتَمَيُّزِهِ وَإِتْقَانِهِ فِي اخْتِبَارِ مُرَاجَعَةِ:
+                    <br><b id="certRangeSlot" style="color: var(--secondary); font-size: 2.2rem;">...</b>
+                    <br>بِتَقْدِيرٍ مُمْتَازٍ وَبِدَرَجَةِ نِهَائِيَّةٍ:
+                </div>
+
                 <div class="cert-score-box" id="certScoreSlot">...</div>
-                <div class="royal-seal" id="certSeal">ختم الإتقان<br>Gold Seal</div>
+
+                <div class="royal-seal" id="certSeal">
+                    ختم الإتقان<br>Gold Seal
+                </div>
+
                 <div class="cert-footer">
-                    <div style="text-align: right;"><span id="certDateLabelLang">تاريخ الإصدار</span>: <br> <span id="certDateSlot"></span></div>
-                    <div style="text-align: left;"><span id="certSignatureLabelLang">توقيع المعلم</span> <br> <div class="signature-line" id="certSignatureName">...</div></div>
+                    <div style="text-align: right;">
+                        <span id="certDateLabelLang" style="font-weight: bold;">تاريخ الإصدار</span>: <br> <span id="certDateSlot" style="font-size: 1.2rem;"></span>
+                    </div>
+                    <div style="text-align: left;">
+                        <span id="certSignatureLabelLang" style="font-weight: bold;">توقيع المعلم</span> <br> 
+                        <div class="signature-line" id="certSignatureName">...</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -567,33 +603,21 @@
 
         const surahs = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
         
-        // Full Question Bank (160+ entries)
         const defaultBank = [
             { t: "﴿الم * ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِّلْمُتَّقِينَ﴾", sidx: 1, type: 'snippet' },
             { t: "﴿وَإِذْ قَالَ رَبُّكَ لِلْمَلَائِكَةِ إِنِّي جَاعِلٌ فِي الْأَرْضِ خَلِيفَةً﴾", sidx: 1, type: 'snippet' },
-            { t: "﴿يَا أَيُّهَا النَّاسُ اعْبُدُوا رَبَّكُمُ الَّذِي خَلَقَكُمْ﴾", sidx: 1, type: 'snippet' },
-            { t: "﴿وَإِذِ اسْتَسْقَى مُوسَى لِقَوْمِهِ فَقُلْنَا اضْرِب بِّعَصَاكَ الْحَجَرَ﴾", sidx: 1, type: 'snippet' },
-            { t: "﴿أَتَأْمُرُونَ النَّاسَ بِالْبِرِّ وَتَنسَوْنَ أَنفُسَكُمْ﴾", sidx: 1, type: 'snippet' },
-            { t: "﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ﴾", sidx: 1, type: 'snippet' },
-            { t: "﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ﴾", sidx: 1, type: 'snippet' },
-            { t: "﴿آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ﴾", sidx: 1, type: 'snippet' },
-            { t: "﴿شَهِدَ اللَّهُ أَنَّهُ لَا إِلَهَ إِلَّا هُوَ وَالْمَلَائِكَةُ وَأُولُو الْعِلْمِ﴾", sidx: 2, type: 'snippet' },
-            { t: "﴿قُلِ اللَّهُمَّ مَالِكَ الْمُلْكِ تُؤْتِي الْمُلْكَ مَن تَشَاءُ﴾", sidx: 2, type: 'snippet' },
+            { t: "﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ﴾", sidx: 1, type: 'snippet' },
+            { t: "﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ﴾", sidx: 1, type: 'snippet' },
             { t: "﴿لَن تَنَالُوا الْبِرَّ حَتَّى تُنفِقُوا مِمَّا تُحِبُّونَ﴾", sidx: 2, type: 'snippet' },
-            { t: "﴿كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ وَإِنَّمَا تُوَفَّوْنَ أُجُورَكُمْ﴾", sidx: 2, type: 'snippet' },
-            { t: "﴿يَا أَيُّهَا النَّاسُ اتَّقُوا رَبَّكُمُ الَّذِي خَلَقَكُم مِّن نَّفْسٍ وَاحِدَةٍ﴾", sidx: 3, type: 'snippet' },
-            { t: "﴿إِنَّ اللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ إِلَى أَهْلِهَا﴾", sidx: 3, type: 'snippet' },
-            { t: "﴿الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِي﴾", sidx: 4, type: 'snippet' },
-            { t: "﴿سُبْحَانَ الَّذِي أَسْرَى بِعَبْدِهِ لَيْلًا مِّنَ الْمَسْجِدِ الْحَرَامِ﴾", sidx: 16, type: 'snippet' },
-            { t: "﴿حم * تَنزِيلُ الْكِتَابِ مِنَ اللَّهِ الْعَزِيزِ الْعَلِيمِ﴾", sidx: 39, type: 'snippet' },
+            { t: "﴿سُبْحَانَ الَّذِي أَسْرَى بِعَبْدِهِ لَيْلًا﴾", sidx: 16, type: 'snippet' },
+            { t: "﴿حم * تَنزِيلُ الْكِتَابِ مِنَ اللَّهِ الْعَزِيزِ الْحَكِيمِ﴾", sidx: 39, type: 'snippet' },
             { t: "﴿تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ﴾", sidx: 66, type: 'snippet' },
             { t: "﴿عَمَّ يَتَسَاءَلُونَ * عَنِ النَّبَإِ الْعَظِيمِ﴾", sidx: 77, type: 'snippet' },
             { t: "﴿يَا أَيُّهَا الْمُزَّمِّلُ * قُمِ اللَّيْلَ إِلَّا قَلِيلًا﴾", sidx: 72, type: 'snippet' },
-            { t: "﴿لَا أُقْسِمُ بِهَذَا الْبَلَدِ * وَأَنتَ حِلٌّ بِهَذَا الْبَلَدِ﴾", sidx: 89, type: 'snippet' },
-            { t: "﴿اقْرأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ * خَلَقَ الْإِنسَانَ﴾", sidx: 95, type: 'snippet' },
-            { t: "﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ﴾", sidx: 111, type: 'snippet' },
-            { t: "﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ * مَلِكِ النَّاسِ﴾", sidx: 113, type: 'snippet' }
-            // ... (Full data is assumed present in logic)
+            { t: "﴿لَا أُقْسِمُ بِهَذَا الْبَلَدِ﴾", sidx: 89, type: 'snippet' },
+            { t: "﴿اقْرأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ﴾", sidx: 95, type: 'snippet' },
+            { t: "﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾", sidx: 111, type: 'snippet' },
+            { t: "﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ﴾", sidx: 113, type: 'snippet' }
         ];
 
         let state = {
@@ -612,15 +636,12 @@
             applyLanguage();
             if(state.isDarkMode) document.body.classList.add('dark-mode');
             initSelectors();
-            
             const teacherEl = document.getElementById('teacherNameInput');
             const groupEl = document.getElementById('groupNameInput');
             const dateEl = document.getElementById('currentDateLabel');
-            
             if(teacherEl) teacherEl.value = state.teacher;
             if(groupEl) groupEl.value = state.group;
             if(dateEl) dateEl.innerText = new Date().toLocaleDateString(state.lang === 'ar' ? 'ar-SA' : 'en-US');
-            
             updateBankStats();
             renderCustomVersesList();
             syncDashboard();
@@ -637,16 +658,13 @@
             const dictionary = i18n[state.lang];
             document.documentElement.lang = state.lang;
             document.body.dir = state.lang === 'ar' ? 'rtl' : 'ltr';
-            
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if(dictionary[key]) el.innerText = dictionary[key];
             });
-
             document.getElementById('langBtn').innerText = state.lang === 'ar' ? "🇺🇸 English" : "🇸🇦 العربية";
             const dateEl = document.getElementById('currentDateLabel');
             if(dateEl) dateEl.innerText = new Date().toLocaleDateString(state.lang === 'ar' ? 'ar-SA' : 'en-US');
-            
             const searchEl = document.getElementById('studentSearchInput');
             if(searchEl) searchEl.placeholder = state.lang === 'ar' ? "اسم الطالب الرباعي..." : "Enter Student Full Name...";
         }
@@ -672,7 +690,6 @@
         function updateBankStats() {
             const tc = document.getElementById('bankTotalCount');
             const cd = document.getElementById('customCountDisplay');
-            // Safe update with null checks
             if(tc) tc.innerText = 162; 
             if(cd) cd.innerText = state.customBank.length;
         }
@@ -733,8 +750,6 @@
             state.customBank.push(newEntry);
             localStorage.setItem('custom_verses_v21', JSON.stringify(state.customBank));
             document.getElementById('customVerseText').value = "";
-            document.getElementById('rangeStart').value = "";
-            document.getElementById('rangeEnd').value = "";
             renderCustomVersesList(); updateBankStats();
         }
 
@@ -947,9 +962,9 @@
             const dictionary = i18n[state.lang];
 
             document.getElementById('certTitleLang').innerText = dictionary.certTitle;
-            document.getElementById('certIntroLang').innerHTML = `${state.lang === 'ar' ? 'بِفَضْلِ اللَّهِ تَعَالَى وَبِتَوْفِيقِهِ، يَسُرُّ المعلم:' : 'By the grace of Allah, the teacher:'} <span style="color:var(--primary)">${state.teacher}</span> ${state.lang === 'ar' ? 'أَنْ يَمْنَحَ هَذِهِ الشَّهَادَةَ لِلطَّالِبِ المتميز:' : 'is honored to present this certificate to the distinguished student:'}`;
+            document.getElementById('certIntroLang').innerHTML = `${state.lang === 'ar' ? 'بِفَضْلِ اللَّهِ تَعَالَى وَبِتَوْفِيقِهِ، يَسُرُّ المعلم:' : 'By the grace of Allah, the teacher:'} <span style="color:var(--primary); text-decoration: underline; font-weight: bold;">${state.teacher}</span> ${state.lang === 'ar' ? 'أَنْ يَمْنَحَ هَذِهِ الشَّهَادَةَ لِلطَّالِبِ المتميز:' : 'is honored to present this certificate to the distinguished student:'}`;
             document.getElementById('certNameSlot').innerText = state.student;
-            document.getElementById('certBodyLang').innerHTML = `${dictionary.certBody}<br><b style="color:var(--secondary)">${surahs[document.getElementById('startSurah').value]} - ${surahs[document.getElementById('endSurah').value]}</b><br>${state.lang === 'ar' ? 'بِتَقْدِيرٍ مُمْتَازٍ وَبِدَرَجَةِ نِهَائِيَّةٍ:' : 'With an Excellent grade and a final score of:'}`;
+            document.getElementById('certBodyLang').innerHTML = `${dictionary.certBody}<br><b style="color:var(--secondary); font-size: 2.2rem;">${surahs[document.getElementById('startSurah').value]} - ${surahs[document.getElementById('endSurah').value]}</b><br>${state.lang === 'ar' ? 'بِتَقْدِيرٍ مُمْتَازٍ وَبِدَرَجَةِ نِهَائِيَّةٍ:' : 'With an Excellent grade and a final score of:'}`;
             document.getElementById('certScoreSlot').innerText = final + " / " + state.maxScore;
             document.getElementById('certDateLabelLang').innerText = dictionary.certDateLabel;
             document.getElementById('certSignatureLabelLang').innerText = dictionary.certSigLabel;
@@ -969,29 +984,6 @@
                 `نتيجة اختبار الطالب: ${state.student}%0Aالدرجة: ${final}/${state.maxScore}%0Aالمعلم المشرف: ${state.teacher}%0Aبارك الله فيه وزاده حرصاً.` :
                 `Assessment result for: ${state.student}%0AScore: ${final}/${state.maxScore}%0ASupervising Teacher: ${state.teacher}%0AMay Allah bless them.`;
             window.open(`https://wa.me/?text=${text}`, '_blank');
-        }
-
-        function exportFullBackup() {
-            const backup = { archive: state.archive, customBank: state.customBank, attendance: state.attendance, teacher: state.teacher, group: state.group };
-            const blob = new Blob([JSON.stringify(backup)], {type: 'application/json'});
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `backup_${Date.now()}.json`;
-            link.click();
-        }
-
-        function restoreData(e) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                try {
-                    const data = JSON.parse(event.target.result);
-                    if(data.archive) localStorage.setItem('v25_archive', JSON.stringify(data.archive));
-                    if(data.customBank) localStorage.setItem('custom_verses_v21', JSON.stringify(data.customBank));
-                    if(data.attendance) localStorage.setItem('v27_attendance', JSON.stringify(data.attendance));
-                    location.reload();
-                } catch(e) { alert("Invalid file."); }
-            };
-            reader.readAsText(e.target.files[0]);
         }
 
         function closeProfile(e) { if(e.target.className === 'modal') e.target.style.display='none'; }
